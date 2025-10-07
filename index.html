@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardian Kids Project - Challenges Faced</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .challenge-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #fff 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .challenge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+        }
+
+        .challenge-card {
+            cursor: pointer;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .challenge-card:active {
+            transform: translateY(-2px) scale(1.01);
+        }
+
+        .challenge-card.expanded {
+            grid-column: 1 / -1;
+        }
+
+        .challenge-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            margin-top: 0;
+        }
+
+        .challenge-card.expanded .challenge-details {
+            max-height: 500px;
+            margin-top: 15px;
+        }
+
+        .detail-section {
+            background: rgba(255,255,255,0.5);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .detail-section h4 {
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .detail-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .detail-section li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #4a5568;
+        }
+
+        .detail-section li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .expand-hint {
+            font-size: 0.85em;
+            color: #718096;
+            margin-top: 10px;
+            font-style: italic;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .challenge-card:hover .expand-hint {
+            opacity: 1;
+        }
+
+        .challenge-card.expanded .expand-hint {
+            display: none;
+        }
+
+        .challenge-card.time {
+            border-left-color: #f56565;
+        }
+
+        .challenge-card.behavioral {
+            border-left-color: #ed8936;
+        }
+
+        .challenge-card.cultural {
+            border-left-color: #ecc94b;
+        }
+
+        .challenge-card.systemic {
+            border-left-color: #48bb78;
+        }
+
+        .challenge-card.resources {
+            border-left-color: #4299e1;
+        }
+
+        .challenge-card.trauma {
+            border-left-color: #9f7aea;
+        }
+
+        .challenge-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .challenge-card.time .challenge-icon {
+            background: rgba(245, 101, 101, 0.1);
+            color: #f56565;
+        }
+
+        .challenge-card.behavioral .challenge-icon {
+            background: rgba(237, 137, 54, 0.1);
+            color: #ed8936;
+        }
+
+        .challenge-card.cultural .challenge-icon {
+            background: rgba(236, 201, 75, 0.1);
+            color: #ecc94b;
+        }
+
+        .challenge-card.systemic .challenge-icon {
+            background: rgba(72, 187, 120, 0.1);
+            color: #48bb78;
+        }
+
+        .challenge-card.resources .challenge-icon {
+            background: rgba(66, 153, 225, 0.1);
+            color: #4299e1;
+        }
+
+        .challenge-card.trauma .challenge-icon {
+            background: rgba(159, 122, 234, 0.1);
+            color: #9f7aea;
+        }
+
+        .challenge-title {
+            font-size: 1.3em;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .challenge-description {
+            color: #4a5568;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        .impact-highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .impact-highlight h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .challenges-grid {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Challenges Faced</h1>
+            <p class="subtitle">Guardian Kids Project: Navigating Complex Realities</p>
+        </div>
+
+        <div class="challenges-grid">
+            <div class="challenge-card behavioral">
+                <div class="challenge-icon">⚠️</div>
+                <h3 class="challenge-title">Behavioral Management</h3>
+                <p class="challenge-description">Hostile behavior among boys disrupted sessions, requiring immediate gender segregation and increased supervision to prevent re-traumatization.</p>
+            </div>
+
+            <div class="challenge-card cultural">
+                <div class="challenge-icon">🛡️</div>
+                <h3 class="challenge-title">Cultural Barriers</h3>
+                <p class="challenge-description">Deep-rooted fear of family blame for reporting abuse. Children caught between protection needs and family loyalty in conservative communities.</p>
+            </div>
+
+            <div class="challenge-card systemic">
+                <div class="challenge-icon">🏛️</div>
+                <h3 class="challenge-title">Systemic Gaps</h3>
+                <p class="challenge-description">Lebanon lacks safe shelters and child-friendly legal procedures. No adequate protection infrastructure for disclosed severe abuse cases.</p>
+            </div>
+
+
+        </div>
+
+        <div class="impact-highlight">
+            <h3>Despite Challenges: Mission Accomplished</h3>
+            <div class="stats-row">
+                <div class="stat">
+                    <span class="stat-number">160</span>
+                    <span class="stat-label">Children in PSS Sessions</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">40</span>
+                    <span class="stat-label">Court Cases Filed</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">120</span>
+                    <span class="stat-label">Parents Engaged</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Target Reached</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
